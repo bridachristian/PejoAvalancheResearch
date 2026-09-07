@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="Data-Driven Avalanche Forecasting in the Pejo Ski Area">
+
+    <meta name="author"
+          content="Christian Brida">
+
+    <title>Data-Driven Avalanche Forecasting | Christian Brida</title>
+
+    <style>
+
+        /* =========================================================
+           GENERAL
+        ========================================================= */
+
+        :root {
+            --bg: #f7f8fa;
+            --white: #ffffff;
+            --text: #18212b;
+            --muted: #66717d;
+            --primary: #1f4e5f;
+            --primary-dark: #163b49;
+            --accent: #d9a441;
+            --border: #e3e7eb;
+            --soft-blue: #eef4f6;
+            --soft-gold: #faf5e8;
+            --shadow: 0 8px 30px rgba(20, 35, 45, 0.07);
+            --radius: 18px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
+
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(1100px, 92%);
+            margin: auto;
+        }
+
+
+        /* =========================================================
+           HEADER / HERO
+        ========================================================= */
+
+        .hero {
+            background:
+                linear-gradient(
+                    135deg,
+                    #173d4b 0%,
+                    #245b6d 55%,
+                    #2d6979 100%
+                );
+
+            color: white;
+            padding: 90px 0 85px;
+        }
+
+        .hero-content {
+            max-width: 850px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #e6c477;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(2.4rem, 6vw, 4.7rem);
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            font-weight: 750;
+        }
+
+        .hero-subtitle {
+            margin-top: 25px;
+            font-size: clamp(1.1rem, 2vw, 1.45rem);
+            line-height: 1.5;
+            color: rgba(255,255,255,0.9);
+            max-width: 760px;
+        }
+
+        .hero-tagline {
+            margin-top: 18px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #e6c477;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 35px;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 12px 20px;
+
+            border-radius: 999px;
+
+            font-weight: 700;
+            font-size: 0.95rem;
+
+            transition:
+                transform 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+        }
+
+        .button-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .button-secondary {
+            border: 1px solid rgba(255,255,255,0.35);
+            color: white;
+            background: rgba(255,255,255,0.08);
+        }
+
+
+        /* =========================================================
+           STATS
+        ========================================================= */
+
+        .stats-wrapper {
+            margin-top: -35px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            background: white;
+
+            border-radius: var(--radius);
+
+            box-shadow: var(--shadow);
+
+            overflow: hidden;
+        }
+
+        .stat {
+            padding: 25px 20px;
+            text-align: center;
+            border-right: 1px solid var(--border);
+        }
+
+        .stat:last-child {
+            border-right: none;
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1.1;
+        }
+
+        .stat-label {
+            display: block;
+            margin-top: 7px;
+            color: var(--muted);
+            font-size: 0.85rem;
+        }
+
+
+        /* =========================================================
+           SECTIONS
+        ========================================================= */
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            max-width: 760px;
+            margin-bottom: 40px;
+        }
+
+        .section-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+        }
+
+        .section-intro {
+            margin-top: 15px;
+            color: var(--muted);
+            font-size: 1.05rem;
+            max-width: 720px;
+        }
+
+
+        /* =========================================================
+           PROJECT
+        ========================================================= */
+
+        .project-grid {
+            display: grid;
+            grid-template-columns:
+                1.5fr 1fr;
+
+            gap: 30px;
+        }
+
+        .project-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px;
+            box-shadow: var(--shadow);
+        }
+
+        .project-card h3 {
+            margin-top: 0;
+            font-size: 1.35rem;
+        }
+
+        .project-card p {
+            color: var(--muted);
+        }
+
+        .workflow {
+            margin-top: 25px;
+
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .workflow-step {
+            background: var(--soft-blue);
+            color: var(--primary);
+
+            padding: 9px 13px;
+
+            border-radius: 9px;
+
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .arrow {
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+
+        /* =========================================================
+           PUBLICATIONS
+        ========================================================= */
+
+        .cards {
+            display: grid;
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 22px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-icon {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+        }
+
+        .card-type {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            font-weight: 800;
+        }
+
+        .card h3 {
+            margin: 8px 0 12px;
+            font-size: 1.25rem;
+            line-height: 1.35;
+        }
+
+        .card p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-top: 0;
+        }
+
+        .card-link {
+            margin-top: auto;
+            padding-top: 20px;
+
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .card-link:hover {
+            color: var(--primary-dark);
+        }
+
+
+        /* =========================================================
+           CODE
+        ========================================================= */
+
+        .code-section {
+            background: var(--soft-blue);
+        }
+
+        .code-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 22px;
+        }
+
+        .code-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 32px;
+            border: 1px solid var(--border);
+        }
+
+        .code-card h3 {
+            margin-top: 0;
+        }
+
+        .code-card p {
+            color: var(--muted);
+        }
+
+        .github-button {
+            display: inline-block;
+
+            margin-top: 12px;
+
+            background: var(--primary);
+            color: white;
+
+            padding: 11px 17px;
+
+            border-radius: 9px;
+
+            font-weight: 700;
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .github-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================================================
+           FINDINGS
+        ========================================================= */
+
+        .findings {
+            display: grid;
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+        }
+
+        .finding {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 30px;
+            text-align: center;
+        }
+
+        .finding-number {
+            font-size: 2.6rem;
+            font-weight: 850;
+            color: var(--primary);
+        }
+
+        .finding-label {
+            margin-top: 5px;
+            font-weight: 700;
+        }
+
+        .finding-description {
+            margin-top: 10px;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+
+        /* =========================================================
+           ABOUT
+        ========================================================= */
+
+        .about {
+            display: grid;
+            grid-template-columns:
+                1fr 2fr;
+
+            gap: 50px;
+            align-items: start;
+        }
+
+        .about-name {
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .about-role {
+            color: var(--primary);
+            font-weight: 700;
+            margin-top: 7px;
+        }
+
+        .about-text {
+            color: var(--muted);
+            font-size: 1.05rem;
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        footer {
+            background: #15242c;
+            color: white;
+            padding: 50px 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .footer-title {
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.75);
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            margin-top: 25px;
+            color: rgba(255,255,255,0.45);
+            font-size: 0.8rem;
+        }
+
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @media (max-width: 800px) {
+
+            .hero {
+                padding: 65px 0 70px;
+            }
+
+            .stats {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .stat:nth-child(2) {
+                border-right: none;
+            }
+
+            .stat:nth-child(-n+2) {
+                border-bottom: 1px solid var(--border);
+            }
+
+            .project-grid,
+            .cards,
+            .code-grid,
+            .about {
+                grid-template-columns: 1fr;
+            }
+
+            .findings {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+
+        @media (max-width: 500px) {
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .button {
+                width: 100%;
+            }
+
+            .stats-wrapper {
+                margin-top: -20px;
+            }
+
+            .stat {
+                padding: 20px 10px;
+            }
+
+            .stat-number {
+                font-size: 1.6rem;
+            }
+
+            .workflow {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+
+<header class="hero">
+
+    <div class="container hero-content">
+
+        <div class="eyebrow">
+            Research project · Italian Alps
+        </div>
+
+        <h1>
+            Data-Driven<br>
+            Avalanche Forecasting
+        </h1>
+
+        <p class="hero-subtitle">
+            An interpretable machine-learning approach
+            for operational avalanche forecasting in the
+            Pejo Ski Area.
+        </p>
+
+        <p class="hero-tagline">
+            From data to decisions: supporting operational
+            avalanche forecasting with interpretable,
+            data-driven insights.
+        </p>
+
+        <div class="hero-buttons">
+
+            <!-- CHANGE THESE LINKS -->
+
+            <a
+                class="button button-primary"
+                href="#publications">
+                Publications
+            </a>
+
+            <a
+                class="button button-secondary"
+                href="#code">
+                Code
+            </a>
+
+            <a
+                class="button button-secondary"
+                href="#project">
+                About the project
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- ============================================================
+     KEY STATS
+============================================================ -->
+
+<div class="stats-wrapper">
+
+    <div class="container">
+
+        <div class="stats">
+
+            <div class="stat">
+                <span class="stat-number">0.88</span>
+                <span class="stat-label">ROC-AUC</span>
+            </div>
+
+            <div class="stat">
+                <span class="stat-number">0.83</span>
+                <span class="stat-label">F1-score</span>
+            </div>
+
+            <div class="stat">
+                <span class="stat-number">4 / 6</span>
+                <span class="stat-label">
+                    Avalanches detected
+                </span>
+            </div>
+
+            <div class="stat">
+                <span class="stat-number">SVM</span>
+                <span class="stat-label">
+                    + SHAP
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ============================================================
+     PROJECT
+============================================================ -->
+
+<section id="project">
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <div class="section-label">
+                The project
+            </div>
+
+            <h2>
+                From observations to operational support
+            </h2>
+
+            <p class="section-intro">
+                This project investigates how machine learning
+                can support operational avalanche forecasting
+                while maintaining an interpretable link between
+                model predictions and physical snow and weather
+                conditions.
+            </p>
+
+        </div>
+
+
+        <div class="project-grid">
+
+            <div class="project-card">
+
+                <h3>
+                    About the research
+                </h3>
+
+                <p>
+                    A Support Vector Machine (SVM) classifier was
+                    developed using long-term snow, meteorological
+                    and snowpack observations from the Pejo Ski Area
+                    in the Italian Alps.
+                </p>
+
+                <p>
+                    Feature engineering, model evaluation and SHAP
+                    explainability were combined to identify the
+                    environmental conditions associated with
+                    increased avalanche probability.
+                </p>
+
+                <p>
+                    The model was subsequently tested on an
+                    independent winter season and integrated into
+                    an operational prototype for scenario-based
+                    forecast support.
+                </p>
+
+            </div>
+
+
+            <div class="project-card">
+
+                <h3>
+                    Methodology
+                </h3>
+
+                <div class="workflow">
+
+                    <span class="workflow-step">
+                        Observations
+                    </span>
+
+                    <span class="arrow">→</span>
+
+                    <span class="workflow-step">
+                        Features
+                    </span>
+
+                    <span class="arrow">→</span>
+
+                    <span class="workflow-step">
+                        SVM
+                    </span>
+
+                    <span class="arrow">→</span>
+
+                    <span class="workflow-step">
+                        SHAP
+                    </span>
+
+                    <span class="arrow">→</span>
+
+                    <span class="workflow-step">
+                        Forecast support
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     PUBLICATIONS
+============================================================ -->
+
+<section id="publications">
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <div class="section-label">
+                Research & publications
+            </div>
+
+            <h2>
+                Publications
+            </h2>
+
+            <p class="section-intro">
+                Thesis, conference paper and related
+                publications resulting from the project.
+            </p>
+
+        </div>
+
+
+        <div class="cards">
+
+
+            <!-- THESIS -->
+
+            <article class="card">
+
+                <div class="card-icon">
+                    📘
+                </div>
+
+                <div class="card-type">
+                    Master thesis
+                </div>
+
+                <h3>
+                    Avalanche Forecasting in the Pejo Ski Area:
+                    A Data-Driven Approach Using Support Vector Machines
+                </h3>
+
+                <p>
+                    Master's thesis developed at the University
+                    of Trento and University of Innsbruck.
+                </p>
+
+                <!-- REPLACE LINK -->
+
+                <a
+                    class="card-link"
+                    href="https://zenodo.org/records/17163947"
+                    target="_blank"
+                    rel="noopener">
+                    Read the thesis →
+                </a>
+
+            </article>
+
+
+            <!-- ISSW -->
+
+            <article class="card">
+
+                <div class="card-icon">
+                    📄
+                </div>
+
+                <div class="card-type">
+                    ISSW 2026
+                </div>
+
+                <h3>
+                    Data-Driven Avalanche Forecasting in the
+                    Pejo Ski Area: An Interpretable
+                    Machine-Learning Approach
+                </h3>
+
+                <p>
+                    Conference paper presented at the
+                    International Snow Science Workshop 2026,
+                    Whistler, Canada.
+                </p>
+
+                <!-- REPLACE LINK -->
+
+                <a
+                    class="card-link"
+                    href="YOUR_ISSW_PAPER_LINK"
+                    target="_blank"
+                    rel="noopener">
+                    Cooming soon →
+                </a>
+
+            </article>
+        
+
+
+            <!-- AINEVA 2 -->
+
+            <article class="card">
+
+                <div class="card-icon">
+                    📑
+                </div>
+
+                <div class="card-type">
+                    AINEVA
+                </div>
+
+                <h3>
+                    Prevedere le valanghe con il machine learning
+                </h3>
+
+                <p>
+                    An introduction to operational machine learning for avalanche forecasting in the Pejo Ski Area, published in AINEVA's <em>Neve e Valanghe</em> journal.
+                </p>
+
+                <!-- CHANGE WHEN AVAILABLE -->
+
+                <a
+                    class="card-link"
+                    href="YOUR_AINEVA_LINK_2"
+                    target="_blank"
+                    rel="noopener">
+                    Coming soon →
+                </a>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     CODE
+============================================================ -->
+
+<section
+    id="code"
+    class="code-section">
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <div class="section-label">
+                Open source
+            </div>
+
+            <h2>
+                Code & operational prototype
+            </h2>
+
+            <p class="section-intro">
+                The research code and operational prototype
+                are available on GitHub.
+            </p>
+
+        </div>
+
+
+        <div class="code-grid">
+
+
+            <!-- SVM CODE -->
+
+            <div class="code-card">
+
+                <h3>
+                    💻 SVM Avalanche Forecasting
+                </h3>
+
+                <p>
+                    Source code for data preprocessing,
+                    feature engineering, model development,
+                    evaluation and SHAP-based interpretation.
+                </p>
+
+                <!-- REPLACE LINK -->
+
+                <a
+                    class="github-button"
+                    href="https://github.com/bridachristian/avalanches_forecast"
+                    target="_blank"
+                    rel="noopener">
+                    View code on GitHub →
+                </a>
+
+            </div>
+
+
+            <!-- TELEGRAM BOT -->
+
+            <div class="code-card">
+
+                <h3>
+                    🤖 Telegram Forecasting Bot
+                </h3>
+
+                <p>
+                    Operational prototype for evaluating
+                    avalanche-risk scenarios from forecast
+                    meteorological and snowpack conditions.
+                </p>
+
+                <!-- REPLACE LINK -->
+
+                <a
+                    class="github-button"
+                    href="https://github.com/bridachristian/PejoAvalancheML"
+                    target="_blank"
+                    rel="noopener">
+                    View code on GitHub →
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     KEY FINDINGS
+============================================================ -->
+
+<section>
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <div class="section-label">
+                Key findings
+            </div>
+
+            <h2>
+                What does the model tell us?
+            </h2>
+
+        </div>
+
+
+        <div class="findings">
+
+
+            <div class="finding">
+
+                <div class="finding-number">
+                    0.88
+                </div>
+
+                <div class="finding-label">
+                    ROC-AUC
+                </div>
+
+                <div class="finding-description">
+                    Strong discrimination between
+                    avalanche and non-avalanche days.
+                </div>
+
+            </div>
+
+
+            <div class="finding">
+
+                <div class="finding-number">
+                    0.83
+                </div>
+
+                <div class="finding-label">
+                    F1-score
+                </div>
+
+                <div class="finding-description">
+                    Balanced predictive performance
+                    on the independent test set.
+                </div>
+
+            </div>
+
+
+            <div class="finding">
+
+                <div class="finding-number">
+                    4 / 6
+                </div>
+
+                <div class="finding-label">
+                    Independent validation
+                </div>
+
+                <div class="finding-description">
+                    Large avalanches identified during
+                    the 2024–25 operational validation.
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     ABOUT ME
+============================================================ -->
+
+<section>
+
+    <div class="container">
+
+        <div class="section-header">
+
+            <div class="section-label">
+                About
+            </div>
+
+            <h2>
+                About me
+            </h2>
+
+        </div>
+
+
+        <div class="about">
+
+            <div>
+
+                <p class="about-name">
+                    Christian Brida
+                </p>
+
+                <p class="about-role">
+                    Environmental Meteorology ·
+                    Avalanche Safety
+                </p>
+
+            </div>
+
+
+            <div class="about-text">
+
+                <p>
+                    Christian Brida is an environmental meteorologist
+                    working in snow and avalanche safety in the Italian
+                    Alps.
+                </p>
+
+                <p>
+                    His work focuses on mountain meteorology,
+                    avalanche forecasting and the application of
+                    data-driven methods to operational snow and
+                    avalanche risk management.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+
+<footer>
+
+    <div class="container">
+
+        <div class="footer-content">
+
+            <div class="footer-title">
+                Data-Driven Avalanche Forecasting
+            </div>
+
+
+            <div class="footer-links">
+
+                <!-- REPLACE LINKS -->
+
+                <a
+                    href="https://github.com/bridachristian"
+                    target="_blank"
+                    rel="noopener">
+                    GitHub
+                </a>
+
+                <a
+                    href="https://it.linkedin.com/in/bridachristian"
+                    target="_blank"
+                    rel="noopener">
+                    LinkedIn
+                </a>
+
+                <a
+                    href="mailto:bridachristian@gmail.com">
+                    Email
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="copyright">
+            © 2026 Christian Brida · Data-Driven Avalanche Forecasting
+        </div>
+
+    </div>
+
+</footer>
+
+
+</body>
+</html>
